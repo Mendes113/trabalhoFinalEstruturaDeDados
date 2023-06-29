@@ -13,15 +13,20 @@ public class VetorMap<K, V> implements Map<K, V> {
         this.vetor = new Veiculo[tamanhoInicial];
     }   
     
-      @Override
-    public void putAll(Map<? extends K, ? extends V> map) {
-        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
-            K key = entry.getKey();
-            V value = entry.getValue();
-            put(key, value);
-        }
-    }
-    
+    //   @Override
+    // public void putAll(Map<? extends K, ? extends V> map) {
+    //     for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+    //         K key = entry.getKey();
+    //         V value = entry.getValue();
+    //         put(key, value);
+    //     }
+    // }
+
+    @Override
+public void putAll(Map<? extends K, ? extends V> map) {
+    throw new UnsupportedOperationException("putAll operation is not supported.");
+}
+
 
     @Override
     public int size() {
