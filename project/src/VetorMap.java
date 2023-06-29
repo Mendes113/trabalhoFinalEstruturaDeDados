@@ -278,12 +278,12 @@ public class VetorMap<K, V> implements Map<K, V> {
 
         numElementos = vetor.length;
 
-        System.out.println("Veículos removidos:");
-        for (int chassi : veiculosRemovidos) {
-            System.out.println(chassi);
-        }
+      
+        System.out.println("Quantidade de Veículos removidos: " + veiculosRemovidos.size());
+
+        
     }
-    
+
 }
 
 
