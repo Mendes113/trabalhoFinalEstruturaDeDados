@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.Map;
+
 
 public class VetorMap<K, V> implements Map<K, V> {
     private int tamanho;
@@ -9,7 +11,17 @@ public class VetorMap<K, V> implements Map<K, V> {
         this.tamanho = tamanhoInicial;
         this.numElementos = 0;
         this.vetor = new Veiculo[tamanhoInicial];
+    }   
+    
+      @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
+        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+            K key = entry.getKey();
+            V value = entry.getValue();
+            put(key, value);
+        }
     }
+    
 
     @Override
     public int size() {
@@ -283,6 +295,22 @@ public class VetorMap<K, V> implements Map<K, V> {
 
         
     }
+
+
+   public void quantidadePorMarca() {
+    Map<String, Integer> quantidadePorMarca = new HashMap<>();
+
+    for (int i = 0; i < numElementos; i++) {
+        String marca = vetor[i].getMarca();
+        if (quantidadePorMarca.containsKey(marca)) {
+            quantidadePorMarca.put(marca, quantidadePorMarca.get(marca) + 1);
+        } else {
+            quantidadePorMarca.put(marca, 1);
+        }
+    }
+
+    System.out.println("Quantidade de veículos por marca: " + quantidadePorMarca);
+}
 
 }
 

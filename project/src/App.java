@@ -31,8 +31,19 @@ public class App {
     // for (Integer chassi : chassiSet) {
     //     System.out.println("Chassi: " + chassi);
     // }   
+//         String marcaDesejada = "Ford"; // Defina a marca desejada
 
+// System.out.println("Carros da marca " + marcaDesejada + ":");
 
-     
+// for (Veiculo veiculo : mapaVeiculo.values()) {
+//     if (veiculo.getMarca().equals(marcaDesejada)) {
+//         System.out.println(veiculo); // Ou qualquer atributo específico do veículo que deseja imprimir
+//     }
+// }
+
+      mapaVeiculo.quantidadePorMarca();
     }
+
+
+    
 }
