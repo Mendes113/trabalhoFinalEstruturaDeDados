@@ -9,8 +9,9 @@ public class App {
         for(int i = 0; i < 100000; i++){
             Veiculo v = new Veiculo();
             mapaVeiculo.put(v.getChassi(), v);
-           
+            
         }
+         mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
          mapaVeiculo.heapSort();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);

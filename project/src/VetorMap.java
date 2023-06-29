@@ -260,6 +260,30 @@ public class VetorMap<K, V> implements Map<K, V> {
         vetor[i] = vetor[j];
         vetor[j] = temp;
     }
+
+     public void removerVeiculosAbaixoDoChassi(int chassiLimite) {
+        List<Integer> veiculosRemovidos = new ArrayList<>();
+
+        for (int i = 0; i < numElementos; i++) {
+            int chassi = vetor[i].getChassi();
+            if (chassi <= chassiLimite) {
+                veiculosRemovidos.add(chassi);
+                vetor[i] = null;
+            }
+        }
+
+        vetor = Arrays.stream(vetor)
+                .filter(Objects::nonNull)
+                .toArray(Veiculo[]::new);
+
+        numElementos = vetor.length;
+
+        System.out.println("Veículos removidos:");
+        for (int chassi : veiculosRemovidos) {
+            System.out.println(chassi);
+        }
+    }
+    
 }
 
 
