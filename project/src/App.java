@@ -41,18 +41,37 @@ public class App {
 // //     }
 // // }
 
-//       mapaVeiculo.quantidadePorMarca();
-     long startTime = System.nanoTime();
-        ListaMap<Integer, Veiculo> mapaVeiculo = new ListaMap<>();
+// //       mapaVeiculo.quantidadePorMarca();
+//      long startTime = System.nanoTime();
+//         ListaMap<Integer, Veiculo> mapaVeiculo = new ListaMap<>();
 
+//         for (int i = 0; i < 100000; i++) {
+//             Veiculo v = new Veiculo();
+//             mapaVeiculo.put(v.getChassi(), v);
+//         }
+
+//         mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+//         mapaVeiculo.quickSort();
+
+//         long endTime = System.nanoTime();
+//         long duration = (endTime - startTime);
+//         System.out.println("Tempo de execução: " + duration + " nanosegundos");
+//         double seconds = duration / 1_000_000_000.0;
+//         System.out.println("Tempo de execução: " + seconds + " segundos");
+
+//         System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
+
+//         System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
+
+//         System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
+
+       long startTime = System.nanoTime();
+        ArvoreMap<Integer, Veiculo> mapaVeiculo = new ArvoreMap<>();
         for (int i = 0; i < 100000; i++) {
             Veiculo v = new Veiculo();
             mapaVeiculo.put(v.getChassi(), v);
         }
-
         mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
-        mapaVeiculo.quickSort();
-
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
         System.out.println("Tempo de execução: " + duration + " nanosegundos");
@@ -64,6 +83,7 @@ public class App {
         System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
 
         System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
+
 
     }
 
