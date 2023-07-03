@@ -270,4 +270,28 @@ private Node<K, V> removerVeiculosAbaixoDoChassi(Node<K, V> node, int chassiLimi
     return node;
 }
 
+
+public void mostraMarcaModelo(String modelo) {
+    mostraMarcaModelo(root, modelo);
+}
+
+private void mostraMarcaModelo(Node<K, V> node, String modelo) {
+    if (node == null) {
+        return;
+    }
+
+    mostraMarcaModelo(node.left, modelo);
+
+    if (node.value instanceof Veiculo) {
+        Veiculo veiculo = (Veiculo) node.value;
+        if (veiculo.getMarca().equals(modelo)) {
+            System.out.println(node.key + " " + veiculo);
+        }
+    }
+
+    mostraMarcaModelo(node.right, modelo);
+}
+
+
+
 }

@@ -323,6 +323,17 @@ public void putAll(Map<? extends K, ? extends V> map) {
     System.out.println("Quantidade de veículos por marca: " + quantidadePorMarca);
 }
 
+public void mostraMarca(String marcaEspecifica) {
+    System.out.println("Chassis dos veículos da marca " + marcaEspecifica + ":");
+
+    for (int i = 0; i < numElementos; i++) {
+        String marcaAtual = vetor[i].getMarca();
+        if (marcaEspecifica.equals(marcaAtual)) {
+            int chassi = vetor[i].getChassi();
+            System.out.println("Numero chssi:" + chassi);
+        }
+    }
+}
 }
 
 
