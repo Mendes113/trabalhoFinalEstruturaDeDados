@@ -278,28 +278,34 @@ public void putAll(Map<? extends K, ? extends V> map) {
         vetor[j] = temp;
     }
 
-     public void removerVeiculosAbaixoDoChassi(int chassiLimite) {
-        List<Integer> veiculosRemovidos = new ArrayList<>();
+ public void removerVeiculosAbaixoDoChassi(int chassiLimite) {
+    int[] veiculosRemovidos = new int[numElementos];
+    int numVeiculosRemovidos = 0;
 
-        for (int i = 0; i < numElementos; i++) {
-            int chassi = vetor[i].getChassi();
-            if (chassi <= chassiLimite) {
-                veiculosRemovidos.add(chassi);
-                vetor[i] = null;
-            }
+    for (int i = 0; i < numElementos; i++) {
+        int chassi = vetor[i].getChassi();
+        if (chassi <= chassiLimite) {
+            veiculosRemovidos[numVeiculosRemovidos] = chassi;
+            numVeiculosRemovidos++;
+            vetor[i] = null;
         }
-
-        vetor = Arrays.stream(vetor)
-                .filter(Objects::nonNull)
-                .toArray(Veiculo[]::new);
-
-        numElementos = vetor.length;
-
-      
-        System.out.println("Quantidade de Veículos removidos: " + veiculosRemovidos.size());
-
-        
     }
+
+    Veiculo[] novoVetor = new Veiculo[numElementos - numVeiculosRemovidos];
+    int index = 0;
+    for (int i = 0; i < numElementos; i++) {
+        if (vetor[i] != null) {
+            novoVetor[index] = vetor[i];
+            index++;
+        }
+    }
+
+    vetor = novoVetor;
+    numElementos = vetor.length;
+
+    System.out.println("Quantidade de Veículos removidos: " + numVeiculosRemovidos);
+}
+
 
 
    public void quantidadePorMarca() {
