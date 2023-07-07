@@ -1,192 +1,136 @@
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
+public class ListaMap<K extends Comparable<K>, V> implements Map<K, V>{
 
-    private Noh inicio;
-    private Noh fim;
-       private LinkedList<Entry<K, V>> entries;
-    public ListaMap() {
-        this.inicio = null;
-        this.fim = null;
-        entries = new LinkedList<>();
-    }
+    private Noh<K,V> head;
 
     @Override
     public int size() {
-        int count = 0;
-        Noh current = inicio;
-
-        while (current != null) {
-            count++;
-            current = current.getProx();
+        if(head == null){
+            return 0;
+        
+        }else{
+            int cont = 0;
+            Noh<K,V> aux = head;
+            while(aux != null){
+                cont++;
+                aux = aux.getProx();
+            }
+            return cont;
         }
 
-        return count;
+        
     }
 
     @Override
     public boolean isEmpty() {
-        return inicio == null;
+        if(head == null){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     public boolean containsKey(Object key) {
-        if (key != null) {
-            K searchKey = (K) key;
-            Noh current = inicio;
-
-            while (current != null) {
-                if (searchKey.equals(((Entry<K, V>) current.getInfo()).getKey())) {
+      
+        if(head == null){
+            return false;
+        }else{
+            Noh<K,V> aux = head;
+            while(aux != null){
+                if(aux.getKey().equals(key)){
                     return true;
                 }
-                current = current.getProx();
+                aux = aux.getProx();
             }
+            return false;
         }
-
-        return false;
     }
 
     @Override
     public boolean containsValue(Object value) {
-        if (value != null) {
-            V searchValue = (V) value;
-            Noh current = inicio;
-
-            while (current != null) {
-                if (searchValue.equals(((Entry<K, V>) current.getInfo()).getValue())) {
+        
+        if(head == null){
+            return false;
+        }else{
+            Noh<K,V> aux = head;
+            while(aux != null){
+                if(aux.getValue().equals(value)){
                     return true;
                 }
-                current = current.getProx();
+                aux = aux.getProx();
             }
+            return false;
         }
-
-        return false;
     }
 
     @Override
     public V get(Object key) {
-        if (key != null) {
-            K searchKey = (K) key;
-            Noh current = inicio;
-
-            while (current != null) {
-                if (searchKey.equals(((Entry<K, V>) current.getInfo()).getKey())) {
-                    return ((Entry<K, V>) current.getInfo()).getValue();
+        
+        if(head == null){
+            return null;
+        }else{
+            Noh<K,V> aux = head;
+            while(aux != null){
+                if(aux.getKey().equals(key)){
+                    return aux.getValue();
                 }
-                current = current.getProx();
+                aux = aux.getProx();
             }
+            return null;
         }
-
-        return null;
     }
 
     @Override
     public V put(K key, V value) {
-        if (key != null) {
-            Entry<K, V> newEntry = new Entry<>(key, value);
-            Noh current = inicio;
-            Noh previous = null;
-
-            while (current != null) {
-                if (key.equals(((Entry<K, V>) current.getInfo()).getKey())) {
-                    V oldValue = ((Entry<K, V>) current.getInfo()).getValue();
-                    ((Entry<K, V>) current.getInfo()).setValue(value);
-                    return oldValue;
+        if(head == null){
+            head = new Noh<K,V>(key,value);
+            return null;
+        }else{
+            Noh<K,V> aux = head;
+            while(aux != null){
+                if(aux.getKey().equals(key)){
+                    V auxValue = aux.getValue();
+                    aux.setValue(value);
+                    return auxValue;
                 }
-                previous = current;
-                current = current.getProx();
+                aux = aux.getProx();
             }
-
-            Noh newNoh = new Noh(newEntry);
-            if (previous == null) {
-                inicio = newNoh;
-            } else {
-                previous.setProx(newNoh);
-            }
+            Noh<K,V> novo = new Noh<K,V>(key,value);
+            novo.setProx(head);
+            head.setAnt(novo);
+            head = novo;
+            return null;
         }
-
-        return null;
     }
 
     @Override
     public V remove(Object key) {
-        if (key != null) {
-            K searchKey = (K) key;
-            Noh current = inicio;
-            Noh previous = null;
+       Noh <K,V> aux = head;
 
-            while (current != null) {
-                if (searchKey.equals(((Entry<K, V>) current.getInfo()).getKey())) {
-                    V oldValue = ((Entry<K, V>) current.getInfo()).getValue();
-                    if (previous == null) {
-                        inicio = current.getProx();
-                    } else {
-                        previous.setProx(current.getProx());
+         if(head == null){
+              return null;
+            }else{
+                while(aux != null){
+                    if(aux.getKey().equals(key)){
+                        if(aux.getAnt() == null){
+                            head = aux.getProx();
+                            return aux.getValue();
+                        }else{
+                            aux.getAnt().setProx(aux.getProx());
+                            return aux.getValue();
+                        }
                     }
-                    return oldValue;
+                    aux = aux.getProx();
                 }
-                previous = current;
-                current = current.getProx();
+                return null;
             }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void clear() {
-        inicio = null;
-        fim = null;
-    }
-
-    @Override
-    public Set<K> keySet() {
-        // TODO: Implement keySet method
-        throw new UnsupportedOperationException("Unimplemented method 'keySet'");
-    }
-
-    @Override
-    public Collection<V> values() {
-        // TODO: Implement values method
-        throw new UnsupportedOperationException("Unimplemented method 'values'");
-    }
-
-    @Override
-    public Set<Map.Entry<K, V>> entrySet() {
-        // TODO: Implement entrySet method
-        throw new UnsupportedOperationException("Unimplemented method 'entrySet'");
-    }
-
-    private static class Entry<K, V> implements Map.Entry<K, V> {
-        private K key;
-        private V value;
-
-        public Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public K getKey() {
-            return key;
-        }
-
-        @Override
-        public V getValue() {
-            return value;
-        }
-
-        @Override
-        public V setValue(V value) {
-            V oldValue = this.value;
-            this.value = value;
-            return oldValue;
-        }
     }
 
     @Override
@@ -195,60 +139,168 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
         throw new UnsupportedOperationException("Unimplemented method 'putAll'");
     }
 
-        public void quickSort() {
-        quickSortRec(inicio, fim);
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'clear'");
     }
 
-    private void quickSortRec(Noh left, Noh right) {
-        if (left != null && right != null && left != right && left != right.getProx()) {
-            Noh pivot = partition(left, right);
-            quickSortRec(left, pivot.getAnt());
-            quickSortRec(pivot.getProx(), right);
-        }
+    @Override
+    public Set<K> keySet() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keySet'");
     }
 
-    private Noh partition(Noh left, Noh right) {
-        K pivotKey = ((Entry<K, V>) right.getInfo()).getKey();
-        Noh i = left.getAnt();
+    @Override
+    public Collection<V> values() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'values'");
+    }
 
-        for (Noh j = left; j != right; j = j.getProx()) {
-            if (((Entry<K, V>) j.getInfo()).getKey().compareTo(pivotKey) <= 0) {
-                i = (i == null) ? left : i.getProx();
-                swapEntries(i, j);
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'entrySet'");
+    }
+
+
+ public void heapSort() {
+    // Construir um heap máximo
+    buildMaxHeap();
+
+    // Extrair o elemento máximo do heap repetidamente para obter a lista ordenada
+    int heapSize = size();
+    for (int i = heapSize - 1; i > 0; i--) {
+        // Trocar o elemento máximo (raiz do heap) com o último elemento não ordenado
+        swap(0, i);
+
+        // Reduzir o tamanho do heap em 1
+        heapSize--;
+
+        // Restaurar a propriedade de heap máximo
+        maxHeapify(0, heapSize);
+    }
+}
+
+private void buildMaxHeap() {
+    int heapSize = size();
+
+    // Começar a partir do último nó não-folha e ir até a raiz do heap
+    for (int i = heapSize / 2 - 1; i >= 0; i--) {
+        maxHeapify(i, heapSize);
+    }
+}
+
+private void maxHeapify(int index, int heapSize) {
+    int largest = index; // Inicialmente, considera-se o nó atual como o maior
+    int leftChild = 2 * index + 1; // Índice do filho esquerdo
+    int rightChild = 2 * index + 2; // Índice do filho direito
+
+    // Verificar se o filho esquerdo é maior que o nó atual
+    if (leftChild < heapSize && getNode(leftChild).getKey().compareTo(getNode(largest).getKey()) > 0) {
+        largest = leftChild;
+    }
+
+    // Verificar se o filho direito é maior que o maior atual
+    if (rightChild < heapSize && getNode(rightChild).getKey().compareTo(getNode(largest).getKey()) > 0) {
+        largest = rightChild;
+    }
+
+    // Se o maior não é o nó atual, trocar os valores e chamar maxHeapify recursivamente no maior
+    if (largest != index) {
+        swap(index, largest);
+        maxHeapify(largest, heapSize);
+    }
+}
+
+private void swap(int i, int j) {
+    Noh<K, V> nodeI = getNode(i);
+    Noh<K, V> nodeJ = getNode(j);
+
+    // Trocar as chaves dos nós
+    K tempKey = nodeI.getKey();
+    nodeI.setKey(nodeJ.getKey());
+    nodeJ.setKey(tempKey);
+
+    // Trocar os valores dos nós
+    V tempValue = nodeI.getValue();
+    nodeI.setValue(nodeJ.getValue());
+    nodeJ.setValue(tempValue);
+}
+
+private Noh<K, V> getNode(int index) {
+    // Percorrer a lista até o nó de índice especificado
+    Noh<K, V> node = head;
+    for (int i = 0; i < index; i++) {
+        node = node.getProx();
+    }
+    return node;
+}
+
+public void mostraMarca(String marca) {
+    if (head == null) {
+        System.out.println("Lista vazia");
+    } else {
+        Noh<K, V> aux = head;
+        while (aux != null) {
+            if (aux.getValue() instanceof Veiculo && ((Veiculo) aux.getValue()).getMarca().equals(marca)) {
+                System.out.println(aux.getKey());
             }
-        }
-
-        i = (i == null) ? left : i.getProx();
-        swapEntries(i, right);
-
-        return i;
-    }
-
-private void swapEntries(Noh noh1, Noh noh2) {
-    Entry<K, V> entry1 = (Entry<K, V>) noh1.getInfo();
-    Entry<K, V> entry2 = (Entry<K, V>) noh2.getInfo();
-
-    K tempKey = entry1.getKey();
-    V tempValue = entry1.getValue();
-
-    entry1 = new Entry<>(entry2.getKey(), entry2.getValue());
-    entry2 = new Entry<>(tempKey, tempValue);
-
-    noh1.setInfo(entry1);
-    noh2.setInfo(entry2);
-}
-
-public void removerVeiculosAbaixoDoChassi(int chassiLimite) {
-    Iterator<Entry<K, V>> iterator = entries.iterator();
-    while (iterator.hasNext()) {
-        Entry<K, V> entry = iterator.next();
-        K key = entry.getKey();
-        if (key instanceof Integer && ((Integer) key).compareTo(chassiLimite) < 0) {
-            iterator.remove();
+            aux = aux.getProx();
         }
     }
 }
 
+public void mostrarChassis() {
+    Noh<K, V> aux = head;
+    boolean foundFord = false;
 
-    
+    while (aux != null) {
+        if (aux.getValue() instanceof Veiculo && ((Veiculo) aux.getValue()).getMarca().equals("Ford")) {
+            System.out.println(aux.getKey());
+            foundFord = true;
+        }
+
+        aux = aux.getProx();
+    }
+
+    if (!foundFord) {
+        System.out.println("Não há chassis da Ford.");
+    }
+}
+
+
+
+public void removerVeiculosAbaixoDoChassi(K chassi) {
+    Noh<K, V> current = head;
+    Noh<K, V> prev = null;
+
+    while (current != null) {
+        if (current.getKey().compareTo(chassi) <= 0) {
+            Noh<K, V> next = current.getProx(); // Salva a referência ao próximo nó antes de remover o nó atual
+
+            // Atualiza as referências para remover o nó atual
+            if (prev != null) {
+                prev.setProx(next);
+                if (next != null) {
+                    next.setAnt(prev);
+                }
+            } else {
+                head = next;
+                if (next != null) {
+                    next.setAnt(null);
+                }
+            }
+
+            current = next; // Atualiza o nó atual para o próximo nó
+        } else {
+            prev = current;
+            current = current.getProx();
+        }
+    }
+}
+
+
+
+
 }

@@ -1,31 +1,45 @@
-public class Noh {
+public class Noh<K, V> {
 
-    private Object info; //este exemplo armazena números inteiros
-    private Noh ant; //destaque para o atributo ant de anterior
-    private Noh prox;
-    public Noh (Object info){
-    this.info = info;
-    this.ant = null;
-    this.prox = null;
-    }
-   
-    
-    public Object getInfo() { 
-        return this.info;
-     }
-    public Noh getProx() { 
-        return this.prox;
-    }
-    public void setProx(Noh n) { this.prox = n; }
-    public Noh getAnt() { 
-        return this.ant;
-    }
-    public void setAnt(Noh n) { this.ant = n; }
+    private K key;
+    private V value;
+    private Noh<K, V> ant;
+    private Noh<K, V> prox;
 
-    public void setInfo(Object info) {
-        this.info = info;
+    public Noh(K key, V value) {
+        this.key = key;
+        this.value = value;
+        this.ant = null;
+        this.prox = null;
     }
 
+    public K getKey() {
+        return key;
+    }
 
+    public V getValue() {
+        return value;
+    }
 
+    public void setKey(K k) {
+        this.key = k;
+    }
+    public void setValue(V v) {
+        this.value = v;
+    }
+
+    public Noh<K, V> getProx() {
+        return prox;
+    }
+
+    public void setProx(Noh<K, V> n) {
+        this.prox = n;
+    }
+
+    public Noh<K, V> getAnt() {
+        return ant;
+    }
+
+    public void setAnt(Noh<K, V> n) {
+        this.ant = n;
+    }
 }
