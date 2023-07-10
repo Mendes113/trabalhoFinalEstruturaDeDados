@@ -4,28 +4,28 @@ public class App {
     public static void main(String[] args) throws Exception {
       
 
-    //   long startTime = System.nanoTime();
-    //         VetorMap<Integer, Veiculo> mapaVeiculo = new VetorMap<>(100000);
-    //     for(int i = 0; i < 100000; i++){
-    //         Veiculo v = new Veiculo();
-    //         mapaVeiculo.put(v.getChassi(), v);
+      long startTime = System.nanoTime();
+            VetorMap<Integer, Veiculo> mapaVeiculo = new VetorMap<>(100000);
+        for(int i = 0; i < 100000; i++){
+            Veiculo v = new Veiculo();
+            mapaVeiculo.put(v.getChassi(), v);
             
-    //     }
-    //      mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
-    //      mapaVeiculo.heapSort();
-    //     long endTime = System.nanoTime();
-    //     long duration = (endTime - startTime);
-    //     System.out.println("Tempo de execução: " + duration + " nanosegundos");
-    //     double seconds = duration / 1_000_000_000.0;
-    //     System.out.println("Tempo de execução: " + seconds + " segundos");
+        }
+         mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+         mapaVeiculo.heapSort();
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Tempo de execução: " + duration + " nanosegundos");
+        double seconds = duration / 1_000_000_000.0;
+        System.out.println("Tempo de execução: " + seconds + " segundos");
 
-    //     System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
+        System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
 
-    //     System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
+        System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
 
-    //     System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
+        System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
 
-    //     mapaVeiculo.mostraMarca("Ford");
+        mapaVeiculo.mostraMarca("Ford");
 
         // System.out.println("Mapa contém o valor Ford? " + mapaVeiculo.containsValue(new Veiculo("Ford")));
 
@@ -48,34 +48,33 @@ public class App {
 
 
 
-    // aqui começa a lista
-     long startTime = System.nanoTime();
-        ListaMap<Integer, Veiculo> mapaVeiculo = new ListaMap<>();
+    // // aqui começa a lista
+    //  long startTime = System.nanoTime();
+    //     ListaMap<Integer, Veiculo> mapaVeiculo = new ListaMap<>();
 
-        for (int i = 0; i < 100000; i++) {
-            Veiculo v = new Veiculo();
-            mapaVeiculo.put(v.getChassi(), v);
-        }
+    //     for (int i = 0; i < 100000; i++) {
+    //         Veiculo v = new Veiculo();
+    //         mapaVeiculo.put(v.getChassi(), v);
+    //     }
 
-        // mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
-        // mapaVeiculo.quickSort();
+    //     mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+    //     mapaVeiculo.quickSort();
 
-        // long endTime = System.nanoTime();
-        // long duration = (endTime - startTime);
-        // System.out.println("Tempo de execução: " + duration + " nanosegundos");
-        // double seconds = duration / 1_000_000_000.0;
-        // System.out.println("Tempo de execução: " + seconds + " segundos");
+    //     long endTime = System.nanoTime();
+    //     long duration = (endTime - startTime);
+    //     System.out.println("Tempo de execução: " + duration + " nanosegundos");
+    //     double seconds = duration / 1_000_000_000.0;
+    //     System.out.println("Tempo de execução: " + seconds + " segundos");
 
-        // System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
+    //     System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
 
-        // System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
-        
-        System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
-         mapaVeiculo.printByBrand("Ford");
-        System.out.println("FIm da lista");
+    //     System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
+
+    //     System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
+    //     mapaVeiculo.mostraMarca("Ford");
+    //     System.out.println("FIm da lista");
 
 
-      
 
 
 

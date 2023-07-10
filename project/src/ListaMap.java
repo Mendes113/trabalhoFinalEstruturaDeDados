@@ -1,14 +1,15 @@
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
 
-    private Noh<K, V> inicio;
-    private Noh<K, V> fim;
-    private LinkedList<Entry<K, V>> entries;
-
+    private Noh inicio;
+    private Noh fim;
+       private LinkedList<Entry<K, V>> entries;
     public ListaMap() {
         this.inicio = null;
         this.fim = null;
@@ -18,7 +19,7 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
     @Override
     public int size() {
         int count = 0;
-        Noh<K, V> current = inicio;
+        Noh current = inicio;
 
         while (current != null) {
             count++;
@@ -37,10 +38,10 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
     public boolean containsKey(Object key) {
         if (key != null) {
             K searchKey = (K) key;
-            Noh<K, V> current = inicio;
+            Noh current = inicio;
 
             while (current != null) {
-                if (searchKey.equals(current.getInfo().getKey())) {
+                if (searchKey.equals(((Entry<K, V>) current.getInfo()).getKey())) {
                     return true;
                 }
                 current = current.getProx();
@@ -54,10 +55,10 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
     public boolean containsValue(Object value) {
         if (value != null) {
             V searchValue = (V) value;
-            Noh<K, V> current = inicio;
+            Noh current = inicio;
 
             while (current != null) {
-                if (searchValue.equals(current.getInfo().getValue())) {
+                if (searchValue.equals(((Entry<K, V>) current.getInfo()).getValue())) {
                     return true;
                 }
                 current = current.getProx();
@@ -71,11 +72,11 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
     public V get(Object key) {
         if (key != null) {
             K searchKey = (K) key;
-            Noh<K, V> current = inicio;
+            Noh current = inicio;
 
             while (current != null) {
-                if (searchKey.equals(current.getInfo().getKey())) {
-                    return current.getInfo().getValue();
+                if (searchKey.equals(((Entry<K, V>) current.getInfo()).getKey())) {
+                    return ((Entry<K, V>) current.getInfo()).getValue();
                 }
                 current = current.getProx();
             }
@@ -88,20 +89,20 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
     public V put(K key, V value) {
         if (key != null) {
             Entry<K, V> newEntry = new Entry<>(key, value);
-            Noh<K, V> current = inicio;
-            Noh<K, V> previous = null;
+            Noh current = inicio;
+            Noh previous = null;
 
             while (current != null) {
-                if (key.equals(current.getInfo().getKey())) {
-                    V oldValue = current.getInfo().getValue();
-                    current.getInfo().setValue(value);
+                if (key.equals(((Entry<K, V>) current.getInfo()).getKey())) {
+                    V oldValue = ((Entry<K, V>) current.getInfo()).getValue();
+                    ((Entry<K, V>) current.getInfo()).setValue(value);
                     return oldValue;
                 }
                 previous = current;
                 current = current.getProx();
             }
 
-            Noh<K, V> newNoh = new Noh<>(newEntry);
+            Noh newNoh = new Noh(newEntry);
             if (previous == null) {
                 inicio = newNoh;
             } else {
@@ -116,12 +117,12 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
     public V remove(Object key) {
         if (key != null) {
             K searchKey = (K) key;
-            Noh<K, V> current = inicio;
-            Noh<K, V> previous = null;
+            Noh current = inicio;
+            Noh previous = null;
 
             while (current != null) {
-                if (searchKey.equals(current.getInfo().getKey())) {
-                    V oldValue = current.getInfo().getValue();
+                if (searchKey.equals(((Entry<K, V>) current.getInfo()).getKey())) {
+                    V oldValue = ((Entry<K, V>) current.getInfo()).getValue();
                     if (previous == null) {
                         inicio = current.getProx();
                     } else {
@@ -194,24 +195,24 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
         throw new UnsupportedOperationException("Unimplemented method 'putAll'");
     }
 
-    public void quickSort() {
+        public void quickSort() {
         quickSortRec(inicio, fim);
     }
 
-    private void quickSortRec(Noh<K, V> left, Noh<K, V> right) {
+    private void quickSortRec(Noh left, Noh right) {
         if (left != null && right != null && left != right && left != right.getProx()) {
-            Noh<K, V> pivot = partition(left, right);
+            Noh pivot = partition(left, right);
             quickSortRec(left, pivot.getAnt());
             quickSortRec(pivot.getProx(), right);
         }
     }
 
-    private Noh<K, V> partition(Noh<K, V> left, Noh<K, V> right) {
-        K pivotKey = right.getInfo().getKey();
-        Noh<K, V> i = left.getAnt();
+    private Noh partition(Noh left, Noh right) {
+        K pivotKey = ((Entry<K, V>) right.getInfo()).getKey();
+        Noh i = left.getAnt();
 
-        for (Noh<K, V> j = left; j != right; j = j.getProx()) {
-            if (j.getInfo().getKey().compareTo(pivotKey) <= 0) {
+        for (Noh j = left; j != right; j = j.getProx()) {
+            if (((Entry<K, V>) j.getInfo()).getKey().compareTo(pivotKey) <= 0) {
                 i = (i == null) ? left : i.getProx();
                 swapEntries(i, j);
             }
@@ -223,29 +224,31 @@ public class ListaMap<K extends Comparable<K>, V> implements Map<K, V> {
         return i;
     }
 
-    private void swapEntries(Noh<K, V> noh1, Noh<K, V> noh2) {
-        Entry<K, V> entry1 = noh1.getInfo();
-        Entry<K, V> entry2 = noh2.getInfo();
+private void swapEntries(Noh noh1, Noh noh2) {
+    Entry<K, V> entry1 = (Entry<K, V>) noh1.getInfo();
+    Entry<K, V> entry2 = (Entry<K, V>) noh2.getInfo();
 
-        K tempKey = entry1.getKey();
-        V tempValue = entry1.getValue();
+    K tempKey = entry1.getKey();
+    V tempValue = entry1.getValue();
 
-        entry1 = new Entry<>(entry2.getKey(), entry2.getValue());
-        entry2 = new Entry<>(tempKey, tempValue);
+    entry1 = new Entry<>(entry2.getKey(), entry2.getValue());
+    entry2 = new Entry<>(tempKey, tempValue);
 
-        noh1.setInfo(entry1);
-        noh2.setInfo(entry2);
-    }
+    noh1.setInfo(entry1);
+    noh2.setInfo(entry2);
+}
 
-    public void removerVeiculosAbaixoDoChassi(int chassiLimite) {
-        Iterator<Entry<K, V>> iterator = entries.iterator();
-        while (iterator.hasNext()) {
-            Entry<K, V> entry = iterator.next();
-            K key = entry.getKey();
-            if (key instanceof Integer && ((Integer) key).compareTo(chassiLimite) < 0) {
-                iterator.remove();
-            }
+public void removerVeiculosAbaixoDoChassi(int chassiLimite) {
+    Iterator<Entry<K, V>> iterator = entries.iterator();
+    while (iterator.hasNext()) {
+        Entry<K, V> entry = iterator.next();
+        K key = entry.getKey();
+        if (key instanceof Integer && ((Integer) key).compareTo(chassiLimite) < 0) {
+            iterator.remove();
         }
     }
+}
 
+
+    
 }
