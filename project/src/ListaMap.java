@@ -301,6 +301,49 @@ public void removerVeiculosAbaixoDoChassi(K chassi) {
 }
 
 
+public void executa() {
+    long startTime = System.nanoTime();
+    ListaMap<Integer, Veiculo> mapaVeiculo = new ListaMap<>();
+
+    Runtime runtime = Runtime.getRuntime();
+    long initialMemory = runtime.totalMemory() - runtime.freeMemory();
+
+    for (int i = 0; i < 100000; i++) {
+        Veiculo v = new Veiculo();
+        mapaVeiculo.put(v.getChassi(), v);
+    }
+
+    mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+    mapaVeiculo.heapSort();
+
+    long endTime = System.nanoTime();
+    long duration = (endTime - startTime);
+    double seconds = duration / 1_000_000_000.0;
+
+    // Verificar o uso de memória após a execução das operações
+    long finalMemory = runtime.totalMemory() - runtime.freeMemory();
+    long usedMemory = finalMemory - initialMemory;
+
+    long marcaStartTime = System.nanoTime();
+    mapaVeiculo.mostraMarca("Ford");
+    long marcaEndTime = System.nanoTime();
+    long marcaDuration = (marcaEndTime - marcaStartTime);
+    double marcaSeconds = marcaDuration / 1_000_000_000.0;
+    System.out.println("Tempo para mostrar a marca: " + marcaSeconds + " segundos");
+
+    System.out.println("Fim da lista");
+    System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
+    System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
+    System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
+    System.out.println("Tempo de execução: " + seconds + " segundos");
+    System.out.println("Uso de memória total: " + usedMemory + " bytes");
+    System.out.println("Uso de memória total: " + bytesToMegabytes(usedMemory) + " MB");
+}
+
+
+private static long bytesToMegabytes(long bytes) {
+    return bytes / (1024 * 1024);
+}
 
 
 }
