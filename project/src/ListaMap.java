@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import java.util.List;
@@ -269,6 +271,30 @@ public void mostrarChassis() {
     }
 }
 
+public void mostrarChassisEmOrdemCrescente() {
+    Noh<K, V> aux = head;
+    List<Integer> chassisList = new ArrayList<>();
+
+    while (aux != null) {
+        V value = aux.getValue();
+        if (value instanceof Veiculo) {
+            Veiculo veiculo = (Veiculo) value;
+            chassisList.add(veiculo.getChassi());
+        }
+
+        aux = aux.getProx();
+    }
+
+    Collections.sort(chassisList);
+
+    System.out.println("Chassis dos veículos em ordem crescente:");
+    for (Integer chassi : chassisList) {
+        System.out.println(chassi);
+    }
+}
+
+
+
 
 
 public void removerVeiculosAbaixoDoChassi(K chassi) {
@@ -313,23 +339,39 @@ public void executa() {
         mapaVeiculo.put(v.getChassi(), v);
     }
 
+    long remocaoStartTime = System.nanoTime();
     mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+    long remocaoEndTime = System.nanoTime();
+    long remocaoDuration = (remocaoEndTime - remocaoStartTime);
+    double remocaoSeconds = remocaoDuration / 1_000_000_000.0;
+
     mapaVeiculo.heapSort();
 
     long endTime = System.nanoTime();
     long duration = (endTime - startTime);
     double seconds = duration / 1_000_000_000.0;
 
-    // Verificar o uso de memória após a execução das operações
-    long finalMemory = runtime.totalMemory() - runtime.freeMemory();
-    long usedMemory = finalMemory - initialMemory;
-
     long marcaStartTime = System.nanoTime();
     mapaVeiculo.mostraMarca("Ford");
     long marcaEndTime = System.nanoTime();
     long marcaDuration = (marcaEndTime - marcaStartTime);
     double marcaSeconds = marcaDuration / 1_000_000_000.0;
-    System.out.println("Tempo para mostrar a marca: " + marcaSeconds + " segundos");
+
+    long impressaoStartTime = System.nanoTime();
+    mapaVeiculo.mostrarChassisEmOrdemCrescente();
+    long impressaoEndTime = System.nanoTime();
+    long impressaoDuration = (impressaoEndTime - impressaoStartTime);
+    double impressaoSeconds = impressaoDuration / 1_000_000_000.0;
+
+    long finalMemory = runtime.totalMemory() - runtime.freeMemory();
+    long usedMemory = finalMemory - initialMemory;
+
+    // Exibir todos os tempos e registros ao final da execução
+    System.out.println("Tempo de inserção: " + seconds + " segundos");
+    System.out.println("Tempo de remoção: " + remocaoSeconds + " segundos");
+    System.out.println("Tempo de ordenação: " + seconds + " segundos");
+    System.out.println("Tempo para mostrar a marca Ford: " + marcaSeconds + " segundos");
+    System.out.println("Tempo de impressão: " + impressaoSeconds + " segundos");
 
     System.out.println("Fim da lista");
     System.out.println("Tamanho do mapa: " + mapaVeiculo.size());

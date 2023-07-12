@@ -1,5 +1,6 @@
 import java.util.Collection;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ArvoreMap<K extends Comparable<K>, V> implements Map<K, V> {
 
@@ -291,6 +292,29 @@ private void mostraMarcaModelo(Node<K, V> node, String modelo) {
 
     mostraMarcaModelo(node.right, modelo);
 }
+public void mostraTodosModelos() {
+    Set<String> modelos = new TreeSet<>(); // Conjunto para armazenar modelos únicos em ordem crescente
+    mostraTodosModelos(root, modelos);
+
+    for (String modelo : modelos) {
+        System.out.println(modelo);
+    }
+}
+
+private void mostraTodosModelos(Node<K, V> node, Set<String> modelos) {
+    if (node == null) {
+        return;
+    }
+
+    mostraTodosModelos(node.left, modelos);
+
+    if (node.value instanceof Veiculo) {
+        Veiculo veiculo = (Veiculo) node.value;
+        modelos.add(veiculo.getMarca()); // Adiciona o modelo ao conjunto
+    }
+
+    mostraTodosModelos(node.right, modelos);
+}
 
 public void executa() {
     // Aqui começa mapa arvore
@@ -305,11 +329,21 @@ public void executa() {
         mapaVeiculo.put(v.getChassi(), v);
     }
     
+    long insercaoEndTime = System.nanoTime();
+    long insercaoDuration = (insercaoEndTime - startTime);
+
     mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+
+    long remocaoEndTime = System.nanoTime();
+    long remocaoDuration = (remocaoEndTime - insercaoEndTime);
+
+    mapaVeiculo.mostraMarcaModelo("Ford");
+
+    long marcaEndTime = System.nanoTime();
+    long marcaDuration = (marcaEndTime - remocaoEndTime);
 
     long endTime = System.nanoTime();
     long duration = (endTime - startTime);
-    System.out.println("Tempo de execução: " + duration + " nanosegundos");
     double seconds = duration / 1_000_000_000.0;
 
     // Verificar o uso de memória após a execução das operações
@@ -319,18 +353,19 @@ public void executa() {
     System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
     System.out.println("Mapa contém a chave 202050000? " + mapaVeiculo.containsKey(202050000));
 
-    long marcaStartTime = System.nanoTime();
-    mapaVeiculo.mostraMarcaModelo("Ford");
-    long marcaEndTime = System.nanoTime();
-    long marcaDuration = (marcaEndTime - marcaStartTime);
-    System.out.println("Tempo para mostrar a marca: " + marcaDuration + " nanosegundos");
     double marcaSeconds = marcaDuration / 1_000_000_000.0;
-    System.out.println("Tempo para mostrar a marca: " + marcaSeconds + " segundos");
 
     System.out.println("Uso de memória total: " + usedMemory + " bytes");
     System.out.println("Uso de memória total: " + bytesToMegabytes(usedMemory) + " MB");
+    
+    System.out.println("Tempo de inserção: " + insercaoDuration + " nanosegundos");
+    System.out.println("Tempo de remoção: " + remocaoDuration + " nanosegundos");
+    System.out.println("Tempo para mostrar a marca: " + marcaDuration + " nanosegundos");
+    System.out.println("Tempo de execução: " + duration + " nanosegundos");
     System.out.println("Tempo de execução: " + seconds + " segundos");
+    System.out.println("Tempo para mostrar a marca: " + marcaSeconds + " segundos");
 }
+
 
 
 private static long bytesToMegabytes(long bytes) {
