@@ -335,6 +335,13 @@ public void mostraMarca(String marcaEspecifica) {
     }
 }
 
+public void imprimirVeiculosEmOrdemCrescente() {
+    System.out.println("Veículos em ordem crescente de número de chassi:");
+    Arrays.sort(vetor, 0, numElementos);
+    for (int i = 0; i < numElementos; i++) {
+        System.out.println(vetor[i]);
+    }
+}
 
 public void executa() {
     long startTime = System.nanoTime();
@@ -343,12 +350,16 @@ public void executa() {
     Runtime runtime = Runtime.getRuntime();
     long initialMemory = runtime.totalMemory() - runtime.freeMemory();
 
+    // Inserção de veículos
     for (int i = 0; i < 100000; i++) {
         Veiculo v = new Veiculo();
         mapaVeiculo.put(v.getChassi(), v);
     }
 
+    // Remoção de veículos
     mapaVeiculo.removerVeiculosAbaixoDoChassi(202050000);
+
+    // Ordenação dos veículos
     mapaVeiculo.heapSort();
 
     long endTime = System.nanoTime();
@@ -359,12 +370,26 @@ public void executa() {
     long finalMemory = runtime.totalMemory() - runtime.freeMemory();
     long usedMemory = finalMemory - initialMemory;
 
+    // Mostrar número de veículos da marca Ford e cálculo do tempo de exibição
     long marcaStartTime = System.nanoTime();
     mapaVeiculo.mostraMarca("Ford");
     long marcaEndTime = System.nanoTime();
     long marcaDuration = (marcaEndTime - marcaStartTime);
     double marcaSeconds = marcaDuration / 1_000_000_000.0;
-    System.out.println("Tempo para mostrar a marca: " + marcaSeconds + " segundos");
+
+    // Impressão dos veículos em ordem crescente de número de chassi e cálculo do tempo de impressão
+    long impressaoStartTime = System.nanoTime();
+    mapaVeiculo.imprimirVeiculosEmOrdemCrescente();
+    long impressaoEndTime = System.nanoTime();
+    long impressaoDuration = (impressaoEndTime - impressaoStartTime);
+    double impressaoSeconds = impressaoDuration / 1_000_000_000.0;
+
+    // Exibir todos os tempos ao final da execução
+    System.out.println("Tempo de inserção: " + seconds + " segundos");
+    System.out.println("Tempo de remoção: " + seconds + " segundos");
+    System.out.println("Tempo de ordenação: " + seconds + " segundos");
+    System.out.println("Tempo de impressão: " + seconds + " segundos");
+    System.out.println("Tempo para mostrar a marca Ford: " + marcaSeconds + " segundos");
 
     System.out.println("Tamanho do mapa: " + mapaVeiculo.size());
     System.out.println("Mapa vazio? " + mapaVeiculo.isEmpty());
@@ -375,12 +400,12 @@ public void executa() {
     System.out.println("Uso de memória total: " + usedMemory + " bytes");
     System.out.println("Uso de memória total: " + bytesToMegabytes(usedMemory) + " MB");
     System.out.println("Tempo de execução: " + seconds + " segundos");
-
+}
 
 
 
     
-}
+
 
 
 
